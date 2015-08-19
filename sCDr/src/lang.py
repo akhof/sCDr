@@ -27,8 +27,6 @@ class lang():
 class _dict():
     def __init__(self):
         ## BASIC
-        self.appname =  {"en":"sCDr",
-                        "de":"sCDr"}
         self.version = {"en":"0.1.0",
                         "de":"0.1.0"}
         self.open = {"en":"Open",
@@ -113,3 +111,7 @@ class _dict():
         self.error = {"en":u"Error ({})",
                       "de":u"Fehler ({})"}
         
+        
+        ## About
+        self.desc = {"en":"sCDr (=simple CD ripping) is a simple tool for fast ripping audio-CDs. The different tracks on the Cd can be either separately or stored together in different formats.",
+                     "de":u"sCDr (=simple CD ripping) ist ein einfaches Tool zum schnellen Auslesen von Audio-CDs. Die einzelnen Tracks der CD können entweder getrennt oder zusammen in verschiedene Formate abgespeichert werden."}

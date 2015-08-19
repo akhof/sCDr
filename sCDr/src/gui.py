@@ -3,7 +3,7 @@
 
 import wx, os, sys, platform, tempfile, thread, time, subprocess
 from wx.lib.mixins.listctrl import CheckListCtrlMixin, ListCtrlAutoWidthMixin
-import hconf, core, buildDialog, lang
+import hconf, core, buildDialog, lang, about
 
 class CheckListCtrl(wx.ListCtrl, CheckListCtrlMixin, ListCtrlAutoWidthMixin):
     def __init__(self, parent):
@@ -461,7 +461,7 @@ class MainFrame(wx.Frame):
                 frame.Show()
     
     def show_ueber(self, event):
-        event.Skip()
+        about.show(self.lang)
     
     def start(self, event):
         print("\nStarting ripping CD...")
