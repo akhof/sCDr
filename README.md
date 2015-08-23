@@ -1,5 +1,5 @@
 # sCDr
-sCDr (=simple CD ripping) is a simple tool for fast ripping audio-CDs. The different tracks on the Cd can be either separately or stored together in different formats.
+sCDr (=simple CD ripping) is a simple tool for fast ripping audio-CDs. The different tracks on the Cd can be either separately or stored together in different formats. sCDr is using Audiotools.
 
 ## Screenshots
 ![Screenshot1](http://www.arnehannappel.de/images/scdr/gallery-en-small/scdr01.png)
