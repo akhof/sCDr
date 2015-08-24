@@ -54,6 +54,8 @@ class _dict():
                               "de":u"Gerät ändern"}
         self.no = {"en":"No.",
                    "de":"Nr."}
+        self.list_title = {"en":"Title",
+                           "de":"Titel"}
         self.album = {"en":"Album",
                       "de":"Album"}
         self.interpreter = {"en":"Interpreter",
@@ -77,12 +79,15 @@ class _dict():
         self.ask_close = {"en":"Really close?",
                           "de":u"Wirklich schließen?"}
         
-        
         ## Main-Frame-Menu
         self.file = {"en":"File",
                      "de":"Datei"}
         self.about = {"en":"About",
                       "de":u"Über"}
+        
+        ## Core
+        self.track = {"en":"Track",
+                     "de":u"Stück"}
         
         
         ## Build-Dialog
@@ -106,12 +111,14 @@ class _dict():
                             "de":"ausstehende Zeit:"}
         self.dialog_title = {"en":"Ripping CD...",
                              "de":"CD auslesen..."}
-        self.success = {"en":"Success!",
-                        "de":"Erfolgreich!"}
+        self.success = {"en":"Success!\nDo you want to open the output path?",
+                        "de":u"Erfolgreich!\nSoll das Ausgabe-Verzeichnis geöffnet werden?"}
         self.error = {"en":u"Error ({})",
                       "de":u"Fehler ({})"}
+        self.cannot_open_dir = {"en":"Cannot open out-dir!",
+                                "de":u"Öffnen des Ausgabe-Verzeichnisses fehlgeschlagen!"}
         
         
         ## About
-        self.desc = {"en":"sCDr (=simple CD ripping) is a simple tool for fast ripping audio-CDs. The different tracks on the Cd can be either separately or stored together in different formats.",
-                     "de":u"sCDr (=simple CD ripping) ist ein einfaches Tool zum schnellen Auslesen von Audio-CDs. Die einzelnen Tracks der CD können entweder getrennt oder zusammen in verschiedene Formate abgespeichert werden."}
+        self.desc = {"en":"sCDr (=simple CD ripping) is a simple tool for fast ripping audio-CDs. The different tracks on the Cd can be either separately or stored together in different formats. sCDr is using Audiotools.",
+                     "de":u"sCDr (=simple CD ripping) ist ein einfaches Tool zum schnellen Auslesen von Audio-CDs. Die einzelnen Tracks der CD können entweder getrennt oder zusammen in verschiedene Formate abgespeichert werden. sCDr nutzt Audiotools."}

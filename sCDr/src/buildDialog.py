@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import wx, time, thread, os, random, shutil, wave, audiotools
+import wx, time, thread, os, random, shutil, wave, audiotools, platform, subprocess
 import core, lang
-
-def secsToTime(secs):
-    m = str(int(secs // 60))
-    s = str(int(int(secs) - (60 * int(m))))
-    return "{}{}:{}{}".format("0" if len(m) == 1 else "", m, "0" if len(s) == 1 else "", s)
 
 class buildDialog(wx.Dialog):
     def __init__(self, parent, *args, **kwds):
@@ -209,10 +204,13 @@ class buildDialog(wx.Dialog):
                 if self.doConnect:
                     filename = u"trackno{}.wav".format(track.no)
                 else:
-                    filename = u"{album} - {trackno} - {title}.{ext}".format(album=track.meta.album_name,
-                                                                         trackno=track.no,
-                                                                         title=track.meta.name,
-                                                                         ext=self.ext)
+                    if track.meta.album_name.strip() in ["", None]:
+                        filename = u"{title}.{ext}".format(title=track.meta.name, ext=self.ext)
+                    else:
+                        filename = u"{album} - {trackno} - {title}.{ext}".format(album=track.meta.album_name,
+                                                                             trackno=track.no,
+                                                                             title=track.meta.name,
+                                                                             ext=self.ext)
                 path = os.path.join(tmp, filename)
                 
                 print(u"Writing Track #{} to '{}'".format(track.no, path))
@@ -302,7 +300,16 @@ class buildDialog(wx.Dialog):
                 shutil.rmtree(tmp)
         
     def on_finished(self):
-        wx.MessageDialog(self, self.lang["success"], "", wx.ICON_INFORMATION|wx.OK).ShowModal()
+        res = wx.MessageDialog(self, self.lang["success"], "", wx.ICON_QUESTION|wx.YES_NO|wx.YES_DEFAULT).ShowModal()
+        if res == wx.ID_YES:
+            out = self.parent.combo_out.GetValue()
+            try:
+                if platform.system() == "Linux":
+                    subprocess.call(["xdg-open", out])
+                else:
+                    os.startfile(out)
+            except:
+                wx.MessageDialog(self, self.lang["cannot_open_dir"], "", wx.ICON_ERROR).ShowModal()
     def on_error(self):
         wx.MessageDialog(self, self.error["error"].format(self.traceback), "", wx.ICON_ERROR|wx.OK).ShowModal()
         self.canceld = True
@@ -325,7 +332,7 @@ class buildDialog(wx.Dialog):
                 txtTracks = "{} / {}".format(self.tracksFinished, self.tracksCount)
                 txtConnect = "" if not self.doConnect else (self.lang["finished"] if self.connecttracksFinished else self.lang["elapsed"])
                 txtLaststeps = self.lang["finished"] if self.laststepsFinished else self.lang["elapsed"]
-                txtTime = secsToTime(time.time()-self.starttime)
+                txtTime = core.secsToTime(time.time()-self.starttime)
                 
                 if self.finished or self.canceld:
                     txtRestTime = "00:00"
@@ -336,7 +343,7 @@ class buildDialog(wx.Dialog):
                     if secs < 0:
                         txtRestTime = "???"
                     else:
-                        txtRestTime = secsToTime(secs)
+                        txtRestTime = core.secsToTime(secs)
                 
                 wx.CallAfter(self.setStatus,
                              txtVorbereitungen, txtTracks, txtConnect, txtLaststeps, txtTime, txtRestTime, self.progress)

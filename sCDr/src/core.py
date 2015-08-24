@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from lang import lang
 import audiotools
+
+def secsToTime(secs):
+    m = int(secs) // 60
+    s = int(secs) - 60*m
+    
+    ps = "0" if len(str(s)) == 1 else ""    
+    return "{}:{}{}".format(m, ps, s)
 
 class _BaseException(Exception):
     def __str__(self):
@@ -95,13 +103,13 @@ class Device():
         self.device = device
         self.tracks = []
     
-    def load(self):
+    def load(self, hconf):
         try:
-            self._load()
+            self._load(hconf)
         except Exception as e:
             raise CannotLoadDevice(self.device, e)
     
-    def _load(self):
+    def _load(self, hconf):
         for i in range(len(self._cd)):
             md = self._cdMeta[i]
             track = Track(self._cd[i+1], i+1)
@@ -119,6 +127,12 @@ class Device():
             tm.year = md.year
             tm.date = md.date
             tm.catalog = md.catalog
+            
+            if tm.name == None:
+                tm.name = u"{} #{}".format(lang(hconf=hconf)["track"], tm.track_no)
+            for k in ["artist", "performer", "composer", "conductor", "isrc", "album_name", "year", "date", "catalog"]:
+                if eval("tm.{}".format(k)) == None:
+                    exec('tm.{} = ""'.format(k))
             
             track.meta = tm
             self.tracks.append( track )

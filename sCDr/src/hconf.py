@@ -130,7 +130,7 @@ class Hconf():
             self._values[field._key] = field._default
 
     def existPath(self):
-        return _os.path.isfile(self.path)
+        return _os.path.isfile(self._path)
     def existHconf(self):
         if not self.existPath():
             return False

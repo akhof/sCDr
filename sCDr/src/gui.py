@@ -57,7 +57,7 @@ class MainFrame(wx.Frame):
             uhome = os.getenv("USERPROFILE")
         else:
             self.showError(u"Unknown system: '{}'".format(platform.system()), exit=True)
-        path = os.path.join(uhome, ".cddareader")
+        path = os.path.join(uhome, ".scdr_hconf")
         self.userHomePath = uhome
         
         print(u"Init hconf with path '{}'".format(path))
@@ -69,6 +69,9 @@ class MainFrame(wx.Frame):
         fields.addField( field("lastTmps", [], [list,]) )
         fields.addField( field("lastOuts", [], [list,]) )
         self.hconf = hconf.Hconf(fields, path)
+        if not self.hconf.existHconf():
+            print("Saving hconf first time...")
+            self.hconf.save()
     def __load_hconf(self):
         self.hconf.load()
         self.langcode = self.hconf.GET("lang")
@@ -93,7 +96,7 @@ class MainFrame(wx.Frame):
         
         self.trackList = CheckListCtrl(self)
         self.trackList.InsertColumn(0, self.lang["no"], width=50)
-        self.trackList.InsertColumn(1, self.lang["title"])
+        self.trackList.InsertColumn(1, self.lang["list_title"])
         self.trackList.InsertColumn(2, self.lang["album"])
         self.trackList.InsertColumn(3, self.lang["interpreter"])
         self.trackList.InsertColumn(4, self.lang["duration"])
@@ -337,6 +340,7 @@ class MainFrame(wx.Frame):
             self.hideGroup("step2")
             self.hideGroup("step3")
             self.button_loadDisk.SetLabel(self.lang["read_tracks"])
+            self.Layout()
             self.action = 1
             self.device = None
             if self.radio_device.GetValue():
@@ -363,6 +367,7 @@ class MainFrame(wx.Frame):
             self.showGroup("read")
             self.hideGroup("step1")
             self.button_loadDisk.SetLabel(self.lang["change_device"])
+            self.Layout()
             self.action = 2
         else:
             self.showError(u"Cannot load tracks! ({})".format(e))
@@ -372,7 +377,7 @@ class MainFrame(wx.Frame):
         tracks = []
         try:
             self.device = core.Device(device)
-            self.device.load()
+            self.device.load(self.hconf)
             
             no = 0
             for track in self.device.tracks:
@@ -380,10 +385,9 @@ class MainFrame(wx.Frame):
                 title = track.meta.name
                 album = track.meta.album_name
                 interpret = track.meta.artist
-                _mins = int(track.meta.duration // 60)
-                _secs = int(track.meta.duration - (60*_mins))
-                duration = "{}{}:{}".format("0" if len(str(_mins)) == 1 else "", _mins, _secs)
+                duration = core.secsToTime(track.meta.duration)
                 year = track.meta.year
+                
                 tracks.append( (str(no), title, album, interpret, duration, year) )
         except Exception as e:
             pass
