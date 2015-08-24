@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from gui import start
+from lang import version
 
 if __name__ == "__main__":
-    print("Starting...\n")
+    print("Starting sCDr {}...\n".format(version))
     start()

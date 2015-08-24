@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+version = "0.1.1"
 
 class lang():
     def __init__(self, langcode=None, hconf=None):
@@ -11,7 +12,6 @@ class lang():
         else:
             raise AttributeError()
         if self.langcode not in ["de", "en"]:
-            print langcode
             raise Exception()
     
     def __getitem__(self, i):
@@ -27,8 +27,8 @@ class lang():
 class _dict():
     def __init__(self):
         ## BASIC
-        self.version = {"en":"0.1.0",
-                        "de":"0.1.0"}
+        self.version = {"en":version,
+                        "de":version}
         self.open = {"en":"Open",
                      "de":u"Öffnen"}
         self.close = {"en":"Close",
