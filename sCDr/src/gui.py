@@ -3,7 +3,7 @@
 
 import wx, os, sys, platform, tempfile, thread, time, subprocess
 from wx.lib.mixins.listctrl import CheckListCtrlMixin, ListCtrlAutoWidthMixin
-import hconf, core, buildDialog, lang, about
+import hconf, core, buildDialog, lang, about, logo
 
 class CheckListCtrl(wx.ListCtrl, CheckListCtrlMixin, ListCtrlAutoWidthMixin):
     def __init__(self, parent):
@@ -167,7 +167,9 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.exit)
     def __set_properties(self):
         self.SetTitle(self.lang["title"])
+        self.SetIcon(wx.IconFromBitmap(logo.getlogoBitmap()))
         self.SetBackgroundColour(wx.Colour(102, 102, 102))
+        
         self.trackList.SetForegroundColour(wx.Colour(26, 26, 26))
         self.label_step1.SetBackgroundColour(wx.Colour(102, 102, 102))
         self.label_step1.SetForegroundColour(wx.Colour(255, 108, 0))

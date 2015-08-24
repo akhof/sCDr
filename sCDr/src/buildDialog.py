@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import wx, time, thread, os, random, shutil, wave, audiotools, platform, subprocess
-import core, lang
+import core, lang, logo
 
 class buildDialog(wx.Dialog):
     def __init__(self, parent, *args, **kwds):
@@ -58,6 +58,7 @@ class buildDialog(wx.Dialog):
         self.gauge = wx.Gauge(self, wx.ID_ANY, 100, style=wx.GA_HORIZONTAL)
 
         self.SetTitle(self.lang["dialog_title"])
+        self.SetIcon(wx.IconFromBitmap(logo.getlogoBitmap()))
         self.SetBackgroundColour(wx.Colour(102, 102, 102))
         self.label_prepare.SetBackgroundColour(wx.Colour(102, 102, 102))
         self.label_prepare.SetForegroundColour(wx.Colour(174, 255, 0))

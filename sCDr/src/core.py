@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from lang import lang
 import audiotools
+from lang import lang
 
 def secsToTime(secs):
     m = int(secs) // 60

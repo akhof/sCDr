@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import wx
+import logo
 
 def show(lang):
     info = wx.AboutDialogInfo()
     
-    #info.SetIcon()
+    info.SetIcon(wx.IconFromBitmap(logo.getlogoBitmap()))
     info.SetName( lang["title"] )
     info.SetVersion( lang["version"])
     info.SetDescription( lang["desc"] )
